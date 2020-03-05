@@ -1,0 +1,31 @@
+---
+title: "Class Enrollment 2"
+author: "Micah Williams, Mark Stephens"
+date: "3/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(janitor)
+library(googlesheets4)
+library(gt)
+
+sheet_id <- '14HmwN2cEVAJHupuehCuLdwG9BXtR3COrxDgaaylLhkA'
+
+balls <- read_sheet(ss= sheet_id) %>%
+  clean_names() %>%
+  mutate(percent_red = red / (red + white),
+         percent_white = white / (red + white))
+
+balls %>% head()
+```
+
+```{r}
+ggplot(balls, aes(percent_red)) +
+  geom_histogram() +
+  scale_y_continuous(breaks = seq(0,12,2)) +
+  labs(title = 'Distribution')
+```
+
